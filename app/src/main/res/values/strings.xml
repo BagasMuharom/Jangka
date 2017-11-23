@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Jangka</string>
+    <string name="title_activity_pengaturan">Pengaturan Activity</string>
+    <string name="title_activity_detail_berita">DetailBeritaActivity</string>
 </resources>
