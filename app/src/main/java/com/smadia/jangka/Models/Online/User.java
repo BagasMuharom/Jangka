@@ -31,7 +31,8 @@ public class User extends Models {
     }
 
     public User(int id) {
-        super(id);
+        JSONObject jsonObject = this.getJsonObject(this.table + '/' + id, "" , 0);
+        setPropetyFromJsonObject(jsonObject);
     }
 
     public static User find(int id) {

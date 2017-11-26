@@ -1,5 +1,6 @@
 package com.smadia.jangka.Models.Online;
 
+import com.smadia.jangka.JSON.JsonFetcher;
 import com.smadia.jangka.JSON.JsonParser;
 import com.smadia.jangka.Models.Models;
 import com.smadia.jangka.Models.Online.Relationship.Komentar;
@@ -17,9 +18,9 @@ public class Berita extends Models {
 
     private int id;
 
-    private String judul;
+    private String judul = "";
 
-    private String isi;
+    private String isi = "";
 
     private Daerah lokasi;
 
@@ -37,12 +38,11 @@ public class Berita extends Models {
 
     private int bookmark;
 
-    private String lastStringResult;
-
     public Berita() {}
 
     public Berita(int id) {
-        super(id);
+        JSONObject jsonObject = this.getJsonObject(this.table + '/' + id, "" , 0);
+        setPropetyFromJsonObject(jsonObject);
     }
 
     public static Berita find(int id) {
@@ -111,11 +111,6 @@ public class Berita extends Models {
         return daftarKategori;
     }
 
-    @Override
-    public String toString() {
-        return this.lastStringResult;
-    }
-
     public int getId() {
         return id;
     }
@@ -147,4 +142,17 @@ public class Berita extends Models {
     public int getDilihat() {
         return dilihat;
     }
+
+    public boolean addBookmarker(User user) {
+        JSONArray jsonArray = this.getJsonArray("tambah/bookmarker/" + user.getId(), "");
+        JsonParser jsonParser = new JsonParser(jsonArray);
+        ArrayList<JSONObject> response= jsonParser.getJsonObjects();
+
+        try {
+            return (Integer.parseInt(response.get(0).getString("status")) == 200);
+        } catch (JSONException e) {
+            return false;
+        }
+    }
+
 }

@@ -18,7 +18,8 @@ public class Daerah extends Models {
     private String nama;
 
     public Daerah(int id) {
-        super(id);
+        JSONObject jsonObject = this.getJsonObject(this.table + '/' + id, "" , 0);
+        setPropetyFromJsonObject(jsonObject);
     }
 
     @Override

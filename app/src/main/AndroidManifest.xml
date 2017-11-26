@@ -33,6 +33,10 @@
         <activity
             android:name=".Views.DetailBeritaActivity"
             android:label="@string/title_activity_detail_berita"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Views.KomentarActivity"
+            android:label="@string/title_activity_komentar"
             android:theme="@style/AppTheme"></activity>
     </application>
 

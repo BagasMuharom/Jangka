@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.smadia.jangka.R;
+import com.smadia.jangka.Views.Fragments.DaftarKategoriFragment;
 import com.smadia.jangka.Views.Fragments.HomeFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,13 +31,13 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         Fragment fragmentTerpilih = null;
+                        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                         switch (item.getItemId()) {
                             case R.id.profile:
                                 Toast.makeText(activity, "Sejarah", Toast.LENGTH_SHORT).show();
                                 break;
                             case R.id.home:
                                 fragmentTerpilih = new HomeFragment();
-                                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                                 fragmentTransaction.replace(R.id.fragment_layout, fragmentTerpilih);
                                 fragmentTransaction.commit();
                                 break;
@@ -44,7 +45,9 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.makeText(activity, "Sejarah", Toast.LENGTH_SHORT).show();
                                 break;
                             case R.id.kategori:
-                                Toast.makeText(activity, "Kategori", Toast.LENGTH_SHORT).show();
+                                fragmentTerpilih = new DaftarKategoriFragment();
+                                fragmentTransaction.replace(R.id.fragment_layout, fragmentTerpilih);
+                                fragmentTransaction.commit();
                                 break;
                         }
                         return true;

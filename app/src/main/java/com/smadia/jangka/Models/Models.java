@@ -1,7 +1,12 @@
 package com.smadia.jangka.Models;
 
+import android.support.design.widget.Snackbar;
+import android.util.Log;
+import android.widget.Toast;
+
 import com.smadia.jangka.JSON.JsonFetcher;
 import com.smadia.jangka.JSON.JsonFetcherAsyncTask;
+import com.smadia.jangka.JSON.JsonParser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,21 +20,6 @@ abstract public class Models {
     protected String host = "http://192.168.55.2";
 
     protected String root = "jangka/public";
-
-    protected String table;
-
-    public Models() {}
-
-    public Models(int id) {
-        JSONObject jsonObject = this.getJsonObject(this.table + '/' +id, "" , 0);
-
-        this.setPropetyFromJsonObject(jsonObject);
-
-        if (jsonObject.length() == 0)
-            this.lastStringResult = "";
-        else
-            this.lastStringResult = jsonObject.toString();
-    }
 
     protected JSONArray getJsonArray(String dir, String get) {
         JsonFetcherAsyncTask asyncTask = new JsonFetcherAsyncTask();
@@ -49,12 +39,17 @@ abstract public class Models {
 
     protected JSONObject getJsonObject(String dir, String get, int index) {
         JSONArray jsonArray = this.getJsonArray(dir, get);
-        try {
-            JSONObject jsonObject = jsonArray.getJSONObject(index);
-            return jsonObject;
-        } catch (JSONException e) {
-            return new JSONObject();
-        }
+        JsonParser jsonParser = new JsonParser(jsonArray);
+        JSONObject jsonObject;
+
+            try {
+                jsonObject = jsonParser.getJsonObjects().get(index);
+                return jsonObject;
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+
+        return new JSONObject();
     }
 
     public static Models find(int id) {
@@ -62,5 +57,10 @@ abstract public class Models {
     }
 
     abstract public void setPropetyFromJsonObject(JSONObject jsonObject);
+
+    @Override
+    public String toString() {
+        return this.lastStringResult;
+    }
 
 }

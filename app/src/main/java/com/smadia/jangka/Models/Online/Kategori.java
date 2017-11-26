@@ -27,7 +27,8 @@ public class Kategori extends Models {
     }
 
     public Kategori(int id) {
-        super(id);
+        JSONObject jsonObject = this.getJsonObject(this.table + '/' + id, "" , 0);
+        setPropetyFromJsonObject(jsonObject);
     }
 
     @Override
@@ -69,5 +70,20 @@ public class Kategori extends Models {
 
     public DateFormat getUpdated_at() {
         return this.updated_at;
+    }
+
+    public ArrayList<Kategori> all() {
+        JSONArray jsonArray = this.getJsonArray(this.table, "");
+        ArrayList<Kategori> daftarKategori = new ArrayList<>();
+        JsonParser jsonParser = new JsonParser(jsonArray);
+        ArrayList<JSONObject> jsonObjects = jsonParser.getJsonObjects();
+
+        for (int i = 0; i < jsonObjects.size(); i++) {
+            Kategori kategori = new Kategori();
+            kategori.setPropetyFromJsonObject(jsonObjects.get(i));
+            daftarKategori.add(kategori);
+        }
+
+        return daftarKategori;
     }
 }
