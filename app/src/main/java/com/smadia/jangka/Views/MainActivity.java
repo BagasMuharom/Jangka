@@ -42,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
         ArrayList<Berita> daftarBerita;
 
-        public CustomAdapter(ArrayList<Berita> daftarBerita) {
+        public CustomAdapter(ArrayList<Berita> daftarBerita)
+        {
             this.daftarBerita = daftarBerita;
         }
 
