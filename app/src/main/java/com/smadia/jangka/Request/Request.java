@@ -24,8 +24,8 @@ public class Request extends StringRequest {
         this.params = new HashMap<>();
     }
 
-    public void setHashMap(HashMap<String, String> hashMap) {
-        this.params = hashMap;
+    public void setParams(Map<String, String> params) {
+        this.params = params;
     }
 
     public Request addParams(String key, String value) {
