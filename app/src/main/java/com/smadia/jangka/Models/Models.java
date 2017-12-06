@@ -17,13 +17,19 @@ abstract public class Models {
 
     private String lastStringResult;
 
-    protected String host = "http://192.168.55.2";
+    protected String host = "https://jangka.herokuapp.com";
 
-    protected String root = "jangka/public";
+    protected String root = "";
 
     protected JSONArray getJsonArray(String dir, String get) {
         JsonFetcherAsyncTask asyncTask = new JsonFetcherAsyncTask();
-        JsonFetcher jsonFetcher = new JsonFetcher(this.host + '/' + this.root + '/' + dir + get);
+        JsonFetcher jsonFetcher;
+
+        if(this.root != "")
+            jsonFetcher = new JsonFetcher(this.host + '/' + this.root + '/' + dir + get);
+        else
+            jsonFetcher =  new JsonFetcher(this.host + '/' + dir + get);
+
         asyncTask.execute(jsonFetcher);
 
         try {

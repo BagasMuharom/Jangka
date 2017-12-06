@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,8 +35,6 @@ public class DetailBeritaActivity extends AppCompatActivity {
         this.initIsiBerita();
 
         this.tampilkanIsiBerita();
-
-        Toast.makeText(this, getIntent().getExtras().getString("judul"), Toast.LENGTH_SHORT).show();
     }
 
     private void initLayout() {

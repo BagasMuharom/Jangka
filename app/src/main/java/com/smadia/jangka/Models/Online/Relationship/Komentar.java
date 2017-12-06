@@ -10,6 +10,8 @@ public class Komentar {
 
     private User user;
 
+    private int id;
+
     private DateFormat created_at;
 
     private DateFormat updated_at;
@@ -42,4 +44,7 @@ public class Komentar {
         return isi;
     }
 
+    public int getId() {
+        return id;
+    }
 }

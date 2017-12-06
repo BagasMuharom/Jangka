@@ -38,6 +38,8 @@ public class Berita extends Models {
 
     private int bookmark;
 
+    private String thumbnailUrl;
+
     public Berita() {}
 
     public Berita(int id) {
@@ -71,6 +73,7 @@ public class Berita extends Models {
             this.isi = jsonObject.getString("isi");
             this.berita_nasional = Boolean.parseBoolean(jsonObject.getString("berita_nasional"));
             this.dilihat = Integer.parseInt(jsonObject.getString("dilihat"));
+            this.thumbnailUrl = jsonObject.getString("thumbnail");
 //            this.lokasi = new Daerah(Integer.parseInt(jsonObject.getString("lokasi")));
         } catch (JSONException e) {
             e.printStackTrace();
@@ -85,7 +88,7 @@ public class Berita extends Models {
 
         for(int i = 0; i < jsonObjects.size(); i++) {
             try {
-                User user = new User(Integer.parseInt(jsonObjects.get(i).getString("user")));
+                User user = new User(Integer.parseInt(jsonObjects.get(i).getString("id_user")));
                 Komentar komentar = new Komentar(this, user, jsonObjects.get(i).getString("isi"));
                 daftarKomentar.add(komentar);
             } catch (JSONException e) {
@@ -143,7 +146,11 @@ public class Berita extends Models {
         return dilihat;
     }
 
-    public boolean addBookmarker(User user) {
+    public String getThumbnailUrl() {
+        return this.thumbnailUrl;
+    }
+
+    public boolean addBookmarker(User user, Berita berita) {
         JSONArray jsonArray = this.getJsonArray("tambah/bookmarker/" + user.getId(), "");
         JsonParser jsonParser = new JsonParser(jsonArray);
         ArrayList<JSONObject> response= jsonParser.getJsonObjects();
