@@ -7,6 +7,8 @@ import org.json.JSONObject;
 
 public class Sejarah extends Models {
 
+    protected String table = "sejarah";
+
     private int id;
 
     private String judul;
@@ -24,7 +26,8 @@ public class Sejarah extends Models {
     }
 
     public Sejarah(int id) {
-        super(id);
+        JSONObject jsonObject = this.getJsonObject(this.table + '/' + id, "" , 0);
+        setPropetyFromJsonObject(jsonObject);
     }
 
     @Override
