@@ -15,6 +15,8 @@ import com.smadia.jangka.Models.Online.Berita;
 import com.smadia.jangka.R;
 import com.smadia.jangka.Views.Layout.DaftarBeritaBaseAdapter;
 
+import java.util.ArrayList;
+
 public class HomeFragment extends Fragment {
 
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -34,7 +36,8 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         this.swipeRefreshLayout = (SwipeRefreshLayout) this.getActivity().findViewById(R.id.swipe_layout);
         final Berita berita = new Berita();
-        DaftarBeritaBaseAdapter baseAdapter = new DaftarBeritaBaseAdapter(berita.all(), this);
+        ArrayList<Berita> daftarBerita = berita.all();
+        DaftarBeritaBaseAdapter baseAdapter = new DaftarBeritaBaseAdapter(daftarBerita, this);
         ListView listView = (ListView) this.getActivity().findViewById(R.id.daftar);
         listView.setAdapter(baseAdapter);
 

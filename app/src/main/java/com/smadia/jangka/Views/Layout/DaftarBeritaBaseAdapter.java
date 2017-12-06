@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.smadia.jangka.Models.Online.Berita;
 import com.smadia.jangka.R;
 import com.smadia.jangka.Util.App;
-import com.smadia.jangka.Util.ImageGetter;
 import com.smadia.jangka.Views.DetailBeritaActivity;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
