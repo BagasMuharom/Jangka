@@ -10,8 +10,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.smadia.jangka.JSON.AsyncTaskListener;
+import com.smadia.jangka.JSON.JsonFetcher;
+import com.smadia.jangka.JSON.JsonFetcherAsyncTask;
 import com.smadia.jangka.Models.Online.Berita;
 import com.smadia.jangka.R;
+import com.smadia.jangka.Util.App;
+
+import org.json.JSONException;
 
 public class DetailBeritaActivity extends AppCompatActivity {
 
@@ -32,9 +38,9 @@ public class DetailBeritaActivity extends AppCompatActivity {
 
         this.initLayout();
 
-        this.initIsiBerita();
+        this.judul.setText(getIntent().getStringExtra("judul"));
 
-        this.tampilkanIsiBerita();
+        this.initIsiBerita();
     }
 
     private void initLayout() {
@@ -56,16 +62,44 @@ public class DetailBeritaActivity extends AppCompatActivity {
     }
 
     private void tampilkanIsiBerita() {
-        this.judul.setText(this.berita.getJudul());
         this.isi.setText(this.berita.getIsi());
 
         Toast.makeText(this, this.berita.toString(), Toast.LENGTH_SHORT).show();
     }
 
     private void initIsiBerita() {
-        Intent intent = getIntent();
-        int idBerita = intent.getIntExtra("id", -1);
-        this.berita = new Berita(idBerita);
+        long idBerita = this.getIntent().getLongExtra("idberita", -1);
+        if(idBerita != -1) {
+            FetchDetailBerita fetchDetailBerita = new FetchDetailBerita();
+            JsonFetcher jsonFetcher = new JsonFetcher(App.generateUrl("berita/" + idBerita));
+            fetchDetailBerita.setAsyncTaskListener(fetchDetailBerita);
+            fetchDetailBerita.execute(jsonFetcher);
+        }
+    }
+
+    private class FetchDetailBerita extends JsonFetcherAsyncTask implements AsyncTaskListener {
+
+        @Override
+        public void onPreExecuteListener() {
+
+        }
+
+        @Override
+        public void onPostExecuteListener(JsonFetcher jsonFetcher) {
+            DetailBeritaActivity.this.berita = new Berita();
+            try {
+                DetailBeritaActivity.this.berita.setPropetyFromJsonObject(jsonFetcher.getJsonArray().getJSONObject(0));
+                DetailBeritaActivity.this.tampilkanIsiBerita();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void onProgressUpdateListener(Integer progress) {
+
+        }
+
     }
 
 }

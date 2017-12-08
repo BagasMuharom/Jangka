@@ -10,15 +10,19 @@ public class JangkaDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME ="Jangka";
 
-    SQLiteDatabase db;
+    public static SQLiteDatabase writeableDatabase;
+
+    public static SQLiteDatabase readableDatabase;
 
     public JangkaDatabaseHelper(Context context)
     {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        JangkaDatabaseHelper.readableDatabase = this.getReadableDatabase();
+        JangkaDatabaseHelper.writeableDatabase = this.getWritableDatabase();
     }
 
     @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+    public void onCreate(SQLiteDatabase db) {
 
     }
 
