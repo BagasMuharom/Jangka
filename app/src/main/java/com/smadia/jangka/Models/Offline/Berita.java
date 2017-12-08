@@ -12,6 +12,8 @@ import java.sql.Timestamp;
 
 public class Berita extends OfflineModel implements OfflineModelInterface{
 
+    private int user;
+
     private int id;
 
     private String judul;
