@@ -4,6 +4,10 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.smadia.jangka.Controllers.AuthController;
+import com.smadia.jangka.Models.Offline.Berita;
+import com.smadia.jangka.Models.Offline.User;
+
 public class JangkaDatabaseHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
@@ -19,7 +23,8 @@ public class JangkaDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-
+        new Berita().createTable(db);
+        new User().createTable(db);
     }
 
     @Override
