@@ -5,6 +5,9 @@ import android.graphics.Bitmap;
 
 import com.smadia.jangka.Models.OfflineModel;
 import com.smadia.jangka.Models.OfflineModelInterface;
+
+import org.w3c.dom.Text;
+
 import java.sql.Blob;
 import java.util.ArrayList;
 
@@ -38,6 +41,12 @@ public class User extends OfflineModel implements OfflineModelInterface {
                 + "email string, "
                 + "avatar blob, "
                 + "login boolean );");
+    }
+
+    public void addData(SQLiteDatabase db) {
+        String sql =  "INSERT INTO User (id, username, email, login ) VALUES('" +
+                id + "','" + username + "','" + email + "','" +  login + "','" + ")" ;
+        db.execSQL(sql);
     }
 
     @Override

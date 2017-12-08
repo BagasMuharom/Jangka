@@ -60,7 +60,7 @@ public class AuthController {
                     }
 
                 } catch (JSONException e) {
-
+                    e.printStackTrace();
                 }
         }
 
@@ -107,7 +107,7 @@ public class AuthController {
 
 
             } catch (JSONException e) {
-
+                e.printStackTrace();
             }
         }
 

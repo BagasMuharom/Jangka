@@ -8,6 +8,7 @@ import com.smadia.jangka.Models.OfflineModelInterface;
 
 import org.w3c.dom.Text;
 
+import java.sql.Blob;
 import java.sql.Timestamp;
 
 public class Berita extends OfflineModel implements OfflineModelInterface{
@@ -26,9 +27,11 @@ public class Berita extends OfflineModel implements OfflineModelInterface{
 
     private Timestamp tglBuat;
 
-    private Bitmap gambar;
+    private Blob gambar;
 
     public static String table ="berita";
+
+    public Berita() {}
 
     public Berita(int id)
     {
@@ -42,12 +45,20 @@ public class Berita extends OfflineModel implements OfflineModelInterface{
                 + "judul string, "
                 + "isi text, "
                 + "lokasi string, "
+                + "gambar blob, "
                 + "reporter string, "
                 + "tglBuat timestamp );");
     }
 
+    public void addBerita(SQLiteDatabase db){
+        String sql =  "INSERT INTO Berita (id, judul, isi,  lokasi, reporter, tglBuat ) VALUES('" +
+                id + "','" + judul + "','" + isi + "','" +  lokasi + "','" + reporter + "','" + tglBuat + "','" +")" ;
+        db.execSQL(sql);
+    }
+
     @Override
-    public void deleteTable(SQLiteDatabase db) {
+    public void deleteTable(SQLiteDatabase db)
+    {
         db.execSQL("DROP TABLE IF EXISTS berita");
     }
 
