@@ -1,34 +1,28 @@
 package com.smadia.jangka.Models;
 
-import android.support.design.widget.Snackbar;
-import android.util.Log;
-import android.widget.Toast;
+import android.os.AsyncTask;
 
+import com.smadia.jangka.JSON.AsyncTaskListener;
 import com.smadia.jangka.JSON.JsonFetcher;
 import com.smadia.jangka.JSON.JsonFetcherAsyncTask;
 import com.smadia.jangka.JSON.JsonParser;
+import com.smadia.jangka.Util.App;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.concurrent.ExecutionException;
 
 abstract public class Models {
 
+    private AsyncTaskListener asyncTaskListener = null;
+
     private String lastStringResult;
 
-    protected String host = "https://jangka.herokuapp.com";
-
-    protected String root = "";
-
     protected JSONArray getJsonArray(String dir, String get) {
-        JsonFetcherAsyncTask asyncTask = new JsonFetcherAsyncTask();
+        JsonFetcherAsyncTask asyncTask = new JsonFetcherAsyncTask(this.asyncTaskListener);
         JsonFetcher jsonFetcher;
 
-        if(this.root != "")
-            jsonFetcher = new JsonFetcher(this.host + '/' + this.root + '/' + dir + get);
-        else
-            jsonFetcher =  new JsonFetcher(this.host + '/' + dir + get);
+        jsonFetcher =  new JsonFetcher(App.generateUrl(dir + get));
 
         asyncTask.execute(jsonFetcher);
 
@@ -69,4 +63,7 @@ abstract public class Models {
         return this.lastStringResult;
     }
 
+    public void setAsyncTaskListener(AsyncTaskListener asyncTaskListener) {
+        this.asyncTaskListener = asyncTaskListener;
+    }
 }

@@ -1,5 +1,6 @@
 package com.smadia.jangka.Models.Online;
 
+import com.smadia.jangka.JSON.AsyncTaskListener;
 import com.smadia.jangka.JSON.JsonFetcher;
 import com.smadia.jangka.JSON.JsonParser;
 import com.smadia.jangka.Models.Models;
@@ -40,19 +41,20 @@ public class Berita extends Models {
 
     private String thumbnailUrl;
 
+    private String url;
+
     public Berita() {}
 
     public Berita(int id) {
-        JSONObject jsonObject = this.getJsonObject(this.table + '/' + id, "" , 0);
-        setPropetyFromJsonObject(jsonObject);
+        this.url = this.table + "/" + id;
     }
 
     public static Berita find(int id) {
         return new Berita(id);
     }
 
-    public ArrayList<Berita> all() {
-        JSONArray jsonArray = this.getJsonArray(this.table, "");
+    public ArrayList<Berita> all(JsonFetcher jsonFetcher) {
+        JSONArray jsonArray = jsonFetcher.getJsonArray();
         ArrayList<Berita> daftarBerita = new ArrayList<>();
         JsonParser jsonParser = new JsonParser(jsonArray);
         ArrayList<JSONObject> jsonObjects = jsonParser.getJsonObjects();
@@ -66,15 +68,32 @@ public class Berita extends Models {
         return daftarBerita;
     }
 
+    public ArrayList<Berita> all(JSONArray jsonArray) {
+        ArrayList<Berita> daftarBerita = new ArrayList<>();
+
+        for(int i = 0; i < jsonArray.length(); i++) {
+            try {
+                Berita berita = new Berita();
+                berita.setPropetyFromJsonObject(jsonArray.getJSONObject(i));
+                daftarBerita.add(berita);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return daftarBerita;
+    }
+
     public void setPropetyFromJsonObject(JSONObject jsonObject) {
         try {
             this.judul = jsonObject.getString("judul");
             this.id = Integer.parseInt(jsonObject.getString("id"));
-            this.isi = jsonObject.getString("isi");
+            if(jsonObject.has("isi"))
+                this.isi = jsonObject.getString("isi");
             this.berita_nasional = Boolean.parseBoolean(jsonObject.getString("berita_nasional"));
             this.dilihat = Integer.parseInt(jsonObject.getString("dilihat"));
             this.thumbnailUrl = jsonObject.getString("thumbnail");
-//            this.lokasi = new Daerah(Integer.parseInt(jsonObject.getString("lokasi")));
+//            this.lokasi = ;
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -99,15 +118,16 @@ public class Berita extends Models {
         return daftarKomentar;
     }
 
-    public ArrayList<Kategori> daftarKategori() {
+    public ArrayList<Kategori> daftarKategori(JSONArray jsonArray) {
         ArrayList<Kategori> daftarKategori = new ArrayList<>();
-        JSONArray jsonArray = this.getJsonArray(this.table + '/' + this.id + "/kategori", "");
-        JsonParser jsonParser = new JsonParser(jsonArray);
-        ArrayList<JSONObject> jsonObjects = jsonParser.getJsonObjects();
 
-        for (int i = 0; i < jsonObjects.size(); i++) {
+        for (int i = 0; i < jsonArray.length(); i++) {
             Kategori kategori = new Kategori();
-            kategori.setPropetyFromJsonObject(jsonObjects.get(i));
+            try {
+                kategori.setPropetyFromJsonObject(jsonArray.getJSONObject(i));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             daftarKategori.add(kategori);
         }
 
@@ -160,6 +180,10 @@ public class Berita extends Models {
         } catch (JSONException e) {
             return false;
         }
+    }
+
+    public JsonFetcher getJsonFetcher() {
+        return new JsonFetcher(this.url);
     }
 
 }

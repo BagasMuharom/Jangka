@@ -32,9 +32,9 @@ public class JsonFetcher {
 
     private String method = "get";
 
-    private JSONArray jsonArray;
+    private JSONArray jsonArray = null;
 
-    private JSONObject jsonObject;
+    private JSONObject jsonObject = null;
 
     private String responseText = "";
 
