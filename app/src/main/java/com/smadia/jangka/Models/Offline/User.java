@@ -12,6 +12,7 @@ import java.sql.Blob;
 
 public class User extends OfflineModel implements OfflineModelInterface {
 
+
     private  int id;
 
     private String username;
@@ -32,6 +33,12 @@ public class User extends OfflineModel implements OfflineModelInterface {
                 + "email string, "
                 + "avatar blob, "
                 + "login boolean );");
+    }
+
+    public void addData(SQLiteDatabase db) {
+        String sql =  "INSERT INTO User (id, username, email, login ) VALUES('" +
+                id + "','" + username + "','" + email + "','" +  login + "','" + ")" ;
+        db.execSQL(sql);
     }
 
     @Override
