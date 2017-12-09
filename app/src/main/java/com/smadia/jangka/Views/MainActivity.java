@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.smadia.jangka.R;
 import com.smadia.jangka.Views.Fragments.DaftarKategoriFragment;
 import com.smadia.jangka.Views.Fragments.HomeFragment;
+import com.smadia.jangka.Views.Fragments.SejarahFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,7 +43,9 @@ public class MainActivity extends AppCompatActivity {
                                 fragmentTransaction.commit();
                                 break;
                             case R.id.sejarah:
-                                Toast.makeText(activity, "Sejarah", Toast.LENGTH_SHORT).show();
+                                fragmentTerpilih = new SejarahFragment();
+                                fragmentTransaction.replace(R.id.fragment_layout, fragmentTerpilih);
+                                fragmentTransaction.commit();
                                 break;
                             case R.id.kategori:
                                 fragmentTerpilih = new DaftarKategoriFragment();

@@ -10,10 +10,6 @@ import com.smadia.jangka.Views.Adapter.JangkaRecyclerViewAdapter;
 
 public class RecyclerViewOnTouchListener implements RecyclerView.OnItemTouchListener {
 
-    private Context context;
-
-    private RecyclerView recyclerView;
-
     private RecyclerViewOnItemClickListener listener;
 
     private GestureDetector gestureDetector;
@@ -21,12 +17,11 @@ public class RecyclerViewOnTouchListener implements RecyclerView.OnItemTouchList
     private JangkaRecyclerViewAdapter adapter;
 
     public RecyclerViewOnTouchListener(Context context, final RecyclerView recyclerView, JangkaRecyclerViewAdapter adapter, final RecyclerViewOnItemClickListener listener) {
-        this.context = context;
-        this.recyclerView = recyclerView;
         this.listener = listener;
         this.adapter = adapter;
 
         gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+
             @Override
             public boolean onSingleTapUp(MotionEvent e) {
                 return true;
@@ -36,7 +31,7 @@ public class RecyclerViewOnTouchListener implements RecyclerView.OnItemTouchList
             public void onLongPress(MotionEvent e) {
                 View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
                 if (child != null && listener != null) {
-                    listener.onLongClick(child, recyclerView.getChildAdapterPosition(child));
+                    listener.onLongClick(child, recyclerView.getChildAdapterPosition(child), RecyclerViewOnTouchListener.this.adapter.getItemId(recyclerView.getChildAdapterPosition(child)));
                 }
             }
         });

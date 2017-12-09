@@ -13,7 +13,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class Berita extends Models {
+public class Berita extends Models<Berita> {
 
     protected String table = "berita";
 
@@ -101,19 +101,6 @@ public class Berita extends Models {
 
     public ArrayList<Komentar> daftarKomentar() {
         ArrayList<Komentar> daftarKomentar = new ArrayList<>();
-        JSONArray jsonArray = this.getJsonArray(this.table + '/' + this.id + "/komentar", "");
-        JsonParser jsonParser = new JsonParser(jsonArray);
-        ArrayList<JSONObject> jsonObjects = jsonParser.getJsonObjects();
-
-        for(int i = 0; i < jsonObjects.size(); i++) {
-            try {
-                User user = new User(Integer.parseInt(jsonObjects.get(i).getString("id_user")));
-                Komentar komentar = new Komentar(this, user, jsonObjects.get(i).getString("isi"));
-                daftarKomentar.add(komentar);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
 
         return daftarKomentar;
     }
@@ -171,15 +158,7 @@ public class Berita extends Models {
     }
 
     public boolean addBookmarker(User user, Berita berita) {
-        JSONArray jsonArray = this.getJsonArray("tambah/bookmarker/" + user.getId(), "");
-        JsonParser jsonParser = new JsonParser(jsonArray);
-        ArrayList<JSONObject> response= jsonParser.getJsonObjects();
-
-        try {
-            return (Integer.parseInt(response.get(0).getString("status")) == 200);
-        } catch (JSONException e) {
-            return false;
-        }
+        return true;
     }
 
     public JsonFetcher getJsonFetcher() {

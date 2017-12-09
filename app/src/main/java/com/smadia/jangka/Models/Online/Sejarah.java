@@ -3,9 +3,12 @@ package com.smadia.jangka.Models.Online;
 import com.smadia.jangka.Models.Models;
 import com.smadia.jangka.Util.DateFormat;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class Sejarah extends Models {
+import java.util.ArrayList;
+
+public class Sejarah extends Models<Sejarah> {
 
     protected String table = "sejarah";
 
@@ -26,13 +29,17 @@ public class Sejarah extends Models {
     }
 
     public Sejarah(int id) {
-        JSONObject jsonObject = this.getJsonObject(this.table + '/' + id, "" , 0);
-        setPropetyFromJsonObject(jsonObject);
+
     }
 
     @Override
     public void setPropetyFromJsonObject(JSONObject jsonObject) {
 
+    }
+
+    @Override
+    public ArrayList<Sejarah> all(JSONArray jsonArray) {
+        return null;
     }
 
 }

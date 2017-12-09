@@ -10,7 +10,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class User extends Models {
+public class User extends Models<User> {
 
     protected String table = "user";
 
@@ -31,8 +31,7 @@ public class User extends Models {
     }
 
     public User(int id) {
-        JSONObject jsonObject = this.getJsonObject(this.table + '/' + id, "" , 0);
-        setPropetyFromJsonObject(jsonObject);
+
     }
 
     public static User find(int id) {
@@ -51,17 +50,15 @@ public class User extends Models {
         }
     }
 
+    @Override
+    public ArrayList<User> all(JSONArray jsonArray) {
+        return new ArrayList<>();
+    }
+
+
     public ArrayList<Berita> bookmark() {
         ArrayList<Berita> daftarBerita = new ArrayList<>();
-        JSONArray jsonArray = this.getJsonArray(this.table + '/' + this.id + "/bookmark", "");
-        JsonParser jsonParser = new JsonParser(jsonArray);
-        ArrayList<JSONObject> jsonObjects = jsonParser.getJsonObjects();
 
-        for(int i = 0; i < jsonObjects.size(); i++) {
-            Berita berita = new Berita();
-            berita.setPropetyFromJsonObject(jsonObjects.get(i));
-            daftarBerita.add(berita);
-        }
 
         return daftarBerita;
     }

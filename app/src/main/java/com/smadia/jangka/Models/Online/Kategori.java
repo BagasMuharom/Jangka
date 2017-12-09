@@ -1,5 +1,6 @@
 package com.smadia.jangka.Models.Online;
 
+import com.smadia.jangka.JSON.JsonFetcher;
 import com.smadia.jangka.JSON.JsonParser;
 import com.smadia.jangka.Models.Models;
 import com.smadia.jangka.Util.DateFormat;
@@ -8,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Kategori extends Models {
@@ -72,18 +74,24 @@ public class Kategori extends Models {
         return this.updated_at;
     }
 
-    public ArrayList<Kategori> all() {
-        JSONArray jsonArray = this.getJsonArray(this.table, "");
-        ArrayList<Kategori> daftarKategori = new ArrayList<>();
-        JsonParser jsonParser = new JsonParser(jsonArray);
-        ArrayList<JSONObject> jsonObjects = jsonParser.getJsonObjects();
+    public ArrayList<Kategori> all(JsonFetcher jsonFetcher) {
+        return this.all(jsonFetcher.getJsonArray());
+    }
 
-        for (int i = 0; i < jsonObjects.size(); i++) {
+    public ArrayList<Kategori> all(JSONArray jsonArray) {
+        ArrayList<Kategori> daftarKategori = new ArrayList<>();
+
+        for(int i = 0; i < jsonArray.length(); i++) {
             Kategori kategori = new Kategori();
-            kategori.setPropetyFromJsonObject(jsonObjects.get(i));
+            try {
+                kategori.setPropetyFromJsonObject(jsonArray.getJSONObject(i));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             daftarKategori.add(kategori);
         }
 
         return daftarKategori;
     }
+
 }

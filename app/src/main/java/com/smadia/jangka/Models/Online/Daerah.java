@@ -9,7 +9,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class Daerah extends Models {
+public class Daerah extends Models<Daerah> {
 
     protected String table = "daerah";
 
@@ -18,8 +18,7 @@ public class Daerah extends Models {
     private String nama;
 
     public Daerah(int id) {
-        JSONObject jsonObject = this.getJsonObject(this.table + '/' + id, "" , 0);
-        setPropetyFromJsonObject(jsonObject);
+
     }
 
     @Override
@@ -32,17 +31,14 @@ public class Daerah extends Models {
         }
     }
 
+    @Override
+    public ArrayList<Daerah> all(JSONArray jsonArray) {
+        return null;
+    }
+
     public ArrayList<Berita> daftarberita() {
         ArrayList<Berita> daftarBerita = new ArrayList<>();
-        JSONArray daftarBeritaJson = this.getJsonArray(this.table + "/" + this.id + "berita", "");
-        JsonParser jsonParser = new JsonParser(daftarBeritaJson);
-        ArrayList<JSONObject> jsonObjects = jsonParser.getJsonObjects();
 
-        for (int i = 0; i < jsonObjects.size(); i++) {
-            Berita berita = new Berita();
-            berita.setPropetyFromJsonObject(jsonObjects.get(i));
-            daftarBerita.add(berita);
-        }
 
         return daftarBerita;
     }

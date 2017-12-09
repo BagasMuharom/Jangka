@@ -31,7 +31,6 @@ import com.smadia.jangka.Util.RecyclerViewOnItemClickListener;
 import com.smadia.jangka.Util.RecyclerViewOnTouchListener;
 import com.smadia.jangka.Views.Adapter.DaftarBeritaAdapter;
 import com.smadia.jangka.Views.DetailBeritaActivity;
-import com.smadia.jangka.Views.Layout.DaftarBeritaBaseAdapter;
 
 import org.json.JSONArray;
 
@@ -46,8 +45,6 @@ public class HomeFragment extends Fragment {
     RecyclerView recyclerView;
 
     ArrayList<Berita> daftarBerita;
-
-    DaftarBeritaBaseAdapter baseAdapter;
 
     Berita berita;
 
@@ -127,8 +124,7 @@ public class HomeFragment extends Fragment {
 
         @Override
         public void onPreExecuteListener() {
-//            DaftarBeritaAdapterBeforeLoaded adapter = new DaftarBeritaAdapterBeforeLoaded();
-//            HomeFragment.this.recyclerView.setAdapter(adapter);
+
         }
 
         @Override

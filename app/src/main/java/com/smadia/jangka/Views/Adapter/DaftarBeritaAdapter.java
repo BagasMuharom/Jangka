@@ -28,7 +28,7 @@ public class DaftarBeritaAdapter extends RecyclerView.Adapter<BeritaHolder> impl
 
     @Override
     public void onBindViewHolder(BeritaHolder holder, int position) {
-        Berita berita = this.daftarBerita.get(position);
+        Berita berita = (Berita) this.getItem(position);
         holder.judul.setText(berita.getJudul());
     }
 
@@ -39,6 +39,11 @@ public class DaftarBeritaAdapter extends RecyclerView.Adapter<BeritaHolder> impl
 
     public long getItemId(int position) {
         return this.daftarBerita.get(position).getId();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return this.daftarBerita.get(position);
     }
 
 }
