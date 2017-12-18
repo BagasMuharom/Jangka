@@ -1,5 +1,6 @@
 package com.smadia.jangka.Models;
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 public interface OfflineModelInterface {
@@ -13,5 +14,7 @@ public interface OfflineModelInterface {
      * Menghapus tabel
      */
     public void deleteTable(SQLiteDatabase db);
+
+    public void setFromCursor(Cursor cursor);
 
 }

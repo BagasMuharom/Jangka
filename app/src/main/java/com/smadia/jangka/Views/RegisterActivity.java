@@ -6,12 +6,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.smadia.jangka.Controllers.AuthController;
 import com.smadia.jangka.R;
 
-public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
+public class RegisterActivity extends AppCompatActivity {
 
-    Button btnRegister;
-    EditText editUname, editEmail, editPswrd;
+    private AuthController controller;
+
+    private Button btnRegister;
+
+    private EditText editUname, editEmail, editPswrd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,16 +27,21 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         editEmail = (EditText) findViewById(R.id.editMail);
         editPswrd = (EditText) findViewById(R.id.editPsw);
 
-        btnRegister.setOnClickListener(this);
+        this.controller = new AuthController(this);
+
+        btnRegister.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                String username = editUname.getText().toString();
+                String email = editEmail.getText().toString();
+                String password = editPswrd.getText().toString();
+
+                RegisterActivity.this.controller.register(username, email, password, password);
+            }
+
+        });
+
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId())
-        {
-            case R.id.btnRegis:
-
-                break;
-        }
-    }
 }

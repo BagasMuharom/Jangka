@@ -22,7 +22,7 @@ public class DaftarKategoriAdapter extends RecyclerView.Adapter<KategoriHolder> 
 
     @Override
     public KategoriHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_view_kategori, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_kategori, null);
         return new KategoriHolder(view);
     }
 

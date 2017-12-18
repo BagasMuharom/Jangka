@@ -34,6 +34,10 @@ public class User extends Models<User> {
 
     }
 
+    public User(JSONObject jsonObject) {
+        this.setPropetyFromJsonObject(jsonObject);
+    }
+
     public static User find(int id) {
         return new User(id);
     }

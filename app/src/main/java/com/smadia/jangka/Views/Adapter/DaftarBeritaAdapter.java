@@ -22,7 +22,7 @@ public class DaftarBeritaAdapter extends RecyclerView.Adapter<BeritaHolder> impl
 
     @Override
     public BeritaHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_view_daftar_berita, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_berita, parent, false);
         return new BeritaHolder(itemView);
     }
 

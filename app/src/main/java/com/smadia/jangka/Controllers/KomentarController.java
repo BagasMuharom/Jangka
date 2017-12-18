@@ -7,6 +7,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
+import com.smadia.jangka.Models.Offline.UserOffline;
 import com.smadia.jangka.Models.Online.Berita;
 import com.smadia.jangka.Models.Online.Relationship.Komentar;
 import com.smadia.jangka.Models.Online.User;
@@ -36,7 +37,7 @@ public class KomentarController {
         queue.add(request);
     }
 
-    private class KirimKomentarListener implements Response.Listener<String>, Response.ErrorListener{
+    private class KirimKomentarListener implements Response.Listener<String>, Response.ErrorListener {
 
         User user;
 
@@ -50,14 +51,18 @@ public class KomentarController {
                 JSONObject jsonResponse = new JSONObject(response);
                 boolean success = jsonResponse.getBoolean("success");
 
-                if(success) {
+                if (success) {
                     Toast.makeText(KomentarController.this.activity, "Berhasil mengirim komentar !", Toast.LENGTH_SHORT).show();
                     Berita berita = KomentarController.this.activity.berita;
-                   KomentarController.this.activity.daftarKomentar.add(new Komentar(berita, this.user , KomentarController.this.activity.komentar.getText().toString()));
+                    KomentarController.this.activity.daftarKomentar.add(new Komentar(
+                            berita,
+                            this.user,
+                            KomentarController.this.activity.komentar.getText().toString(),
+                            jsonResponse.getInt("id_komentar")
+                    ));
                     ((BaseAdapter) KomentarController.this.activity.daftar_komentar.getAdapter()).notifyDataSetChanged();
                     KomentarController.this.activity.komentar.setText("");
-                }
-                else{
+                } else {
                     Toast.makeText(KomentarController.this.activity, "Gagal mengirim komentar !", Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
@@ -68,6 +73,30 @@ public class KomentarController {
         @Override
         public void onErrorResponse(VolleyError error) {
             Toast.makeText(KomentarController.this.activity, "Terjadi kesalahan, silahkan coba beberapa saat lagi !", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    public void hapusKomentar(UserOffline user, int idKomentar) {
+        String url = App.generateUrl("komentar/hapus");
+        HapusKomentarListener listener = new HapusKomentarListener();
+        Request request = new Request(com.android.volley.Request.Method.POST, url, listener, listener);
+        request.addParams("id_komentar", idKomentar + "");
+        request.addParams("id_user", user.getIdOnline() + "");
+        RequestQueue queue = Volley.newRequestQueue(this.activity);
+        queue.add(request);
+    }
+
+    private class HapusKomentarListener implements Response.Listener<String>, Response.ErrorListener {
+
+        @Override
+        public void onErrorResponse(VolleyError error) {
+            Toast.makeText(KomentarController.this.activity, "Gagal menghapus !", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onResponse(String response) {
+            Toast.makeText(KomentarController.this.activity, "Berhasil menghapus !", Toast.LENGTH_SHORT).show();
         }
 
     }

@@ -1,5 +1,6 @@
 package com.smadia.jangka.Models.Online;
 
+import com.smadia.jangka.JSON.JsonFetcher;
 import com.smadia.jangka.JSON.JsonParser;
 import com.smadia.jangka.Models.Models;
 
@@ -17,7 +18,7 @@ public class Daerah extends Models<Daerah> {
 
     private String nama;
 
-    public Daerah(int id) {
+    public Daerah() {
 
     }
 
@@ -33,14 +34,27 @@ public class Daerah extends Models<Daerah> {
 
     @Override
     public ArrayList<Daerah> all(JSONArray jsonArray) {
-        return null;
+        ArrayList<Daerah> daftarDaerah = new ArrayList<>();
+
+        for(int i = 0; i < jsonArray.length(); i++) {
+            Daerah daerah = new Daerah();
+            try {
+                daerah.setPropetyFromJsonObject(jsonArray.getJSONObject(i));
+                daftarDaerah.add(daerah);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return daftarDaerah;
     }
 
-    public ArrayList<Berita> daftarberita() {
-        ArrayList<Berita> daftarBerita = new ArrayList<>();
+    public ArrayList<Daerah> all(JsonFetcher jsonFetcher) {
+        return this.all(jsonFetcher.getJsonArray());
+    }
 
-
-        return daftarBerita;
+    public int getId() {
+        return id;
     }
 
 }

@@ -1,5 +1,7 @@
 package com.smadia.jangka.Models.Online;
 
+import android.graphics.Bitmap;
+
 import com.smadia.jangka.JSON.AsyncTaskListener;
 import com.smadia.jangka.JSON.JsonFetcher;
 import com.smadia.jangka.JSON.JsonParser;
@@ -42,6 +44,8 @@ public class Berita extends Models<Berita> {
     private String thumbnailUrl;
 
     private String url;
+
+    private Bitmap thumbnail;
 
     public Berita() {}
 
@@ -163,6 +167,10 @@ public class Berita extends Models<Berita> {
 
     public JsonFetcher getJsonFetcher() {
         return new JsonFetcher(this.url);
+    }
+
+    public Bitmap getThumbnail() {
+        return thumbnail;
     }
 
 }

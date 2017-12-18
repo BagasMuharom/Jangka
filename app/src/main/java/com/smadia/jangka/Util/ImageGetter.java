@@ -11,6 +11,7 @@ import com.smadia.jangka.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 
 public class ImageGetter {
@@ -28,6 +29,7 @@ public class ImageGetter {
             public void onError() {
 
             }
+
         });
     }
 
@@ -44,6 +46,12 @@ public class ImageGetter {
         }
 
         return new byte[0];
+    }
+
+    public static byte[] getImageByte(Bitmap image) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.PNG, 0, stream);
+        return stream.toByteArray();
     }
 
     public static Bitmap getImageBitmap(byte[] imageByte) {

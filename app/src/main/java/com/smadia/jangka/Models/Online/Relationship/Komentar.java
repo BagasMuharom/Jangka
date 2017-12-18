@@ -18,10 +18,11 @@ public class Komentar {
 
     private String isi;
 
-    public Komentar(Berita berita, User user, String isi) {
+    public Komentar(Berita berita, User user, String isi, int id) {
         this.berita = berita;
         this.user = user;
         this.isi = isi;
+        this.id = id;
     }
 
     public Berita getBerita() {

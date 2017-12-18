@@ -7,6 +7,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
+import com.smadia.jangka.Models.Offline.UserOffline;
 import com.smadia.jangka.Models.Online.Berita;
 import com.smadia.jangka.Models.Online.User;
 import com.smadia.jangka.Request.Request;
@@ -25,6 +26,16 @@ public class BookmarkController {
         TambahKeBookmarkListener listener = new TambahKeBookmarkListener();
         Request request = new Request(com.android.volley.Request.Method.POST, url, listener, listener);
         request.addParams("user", user.getId() + "");
+        request.addParams("berita", berita.getId() + "");
+        RequestQueue queue = Volley.newRequestQueue(this.activity);
+        queue.add(request);
+    }
+
+    public void tambahKeBookmark(UserOffline user, Berita berita) {
+        String url = App.generateUrl("bookmark/tambah");
+        TambahKeBookmarkListener listener = new TambahKeBookmarkListener();
+        Request request = new Request(com.android.volley.Request.Method.POST, url, listener, listener);
+        request.addParams("user", user.getIdOnline() + "");
         request.addParams("berita", berita.getId() + "");
         RequestQueue queue = Volley.newRequestQueue(this.activity);
         queue.add(request);
@@ -49,6 +60,16 @@ public class BookmarkController {
         HapusDariBookmarkListener listener = new HapusDariBookmarkListener();
         Request request = new Request(com.android.volley.Request.Method.POST, url, listener, listener);
         request.addParams("user", user.getId() + "");
+        request.addParams("berita", berita.getId() + "");
+        RequestQueue queue = Volley.newRequestQueue(this.activity);
+        queue.add(request);
+    }
+
+    public void hapusDariBookmark(UserOffline user, Berita berita) {
+        String url = App.generateUrl("bookmark/hapus");
+        HapusDariBookmarkListener listener = new HapusDariBookmarkListener();
+        Request request = new Request(com.android.volley.Request.Method.POST, url, listener, listener);
+        request.addParams("user", user.getIdOnline() + "");
         request.addParams("berita", berita.getId() + "");
         RequestQueue queue = Volley.newRequestQueue(this.activity);
         queue.add(request);

@@ -21,7 +21,9 @@ import java.util.ArrayList;
 
 public class DaftarKategoriFragment extends Fragment {
 
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
+
+    public static ArrayList<Kategori> daftarKategori;
 
     @Nullable
     @Override
@@ -36,33 +38,8 @@ public class DaftarKategoriFragment extends Fragment {
         recyclerView = (RecyclerView) this.getActivity().findViewById(R.id.daftar_kategori);
         recyclerView.setLayoutManager(new LinearLayoutManager(DaftarKategoriFragment.this.getContext()));
 
-        FetchDaftarKategori daftarKategori = new FetchDaftarKategori();
-        JsonFetcher jsonFetcher = new JsonFetcher(App.generateUrl("kategori"));
-        daftarKategori.execute(jsonFetcher);
-    }
-
-    private class FetchDaftarKategori extends JsonFetcherAsyncTask implements AsyncTaskListener {
-
-        public FetchDaftarKategori() {
-            super.asyncTaskListener = this;
-        }
-
-        @Override
-        public void onPreExecuteListener() {
-
-        }
-
-        @Override
-        public void onPostExecuteListener(JsonFetcher jsonFetcher) {
-            ArrayList<Kategori> daftarKategori = new Kategori().all(jsonFetcher);
-            DaftarKategoriAdapter adapter = new DaftarKategoriAdapter(daftarKategori);
-            DaftarKategoriFragment.this.recyclerView.setAdapter(adapter);
-        }
-
-        @Override
-        public void onProgressUpdateListener(Integer progress) {
-
-        }
+        DaftarKategoriAdapter adapter = new DaftarKategoriAdapter(daftarKategori);
+        DaftarKategoriFragment.this.recyclerView.setAdapter(adapter);
 
     }
 
