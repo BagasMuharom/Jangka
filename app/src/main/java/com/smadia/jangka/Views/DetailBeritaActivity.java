@@ -7,17 +7,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.smadia.jangka.Controllers.BeritaOfflineController;
 import com.smadia.jangka.Controllers.BookmarkController;
+import com.smadia.jangka.Controllers.FeedbackBeritaController;
 import com.smadia.jangka.JSON.AsyncTaskListener;
 import com.smadia.jangka.JSON.JsonFetcher;
 import com.smadia.jangka.JSON.JsonFetcherAsyncTask;
 import com.smadia.jangka.Models.Offline.UserOffline;
 import com.smadia.jangka.Models.Online.Berita;
-import com.smadia.jangka.Models.Online.User;
 import com.smadia.jangka.R;
 import com.smadia.jangka.Util.App;
 
@@ -34,11 +34,25 @@ public class DetailBeritaActivity extends AppCompatActivity {
 
     private FloatingActionButton komentar;
 
+    private Button sukaBtn;
+
+    private Button tidakSukaBtn;
+
     private Button bookmarkB;
+
+    private Button simpan;
 
     private BookmarkController bookmarkController;
 
+    private FeedbackBeritaController feedbackBeritaController;
+
+    private BeritaOfflineController beritaOfflineController;
+
     private JSONObject jsonResponse;
+
+    private boolean disukai = false;
+
+    private boolean tidak_disukai = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +62,10 @@ public class DetailBeritaActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         this.bookmarkController = new BookmarkController(this);
+
+        this.feedbackBeritaController = new FeedbackBeritaController(this);
+
+        this.beritaOfflineController = new BeritaOfflineController(this);
 
         this.initLayout();
 
@@ -63,6 +81,12 @@ public class DetailBeritaActivity extends AppCompatActivity {
 
         this.bookmarkB = (Button) this.findViewById(R.id.bookmark);
 
+        this.sukaBtn = (Button) this.findViewById(R.id.suka);
+
+        this.tidakSukaBtn = (Button) this.findViewById(R.id.tidak_suka);
+
+        this.simpan = (Button) this.findViewById(R.id.simpan);
+
         komentar = (FloatingActionButton) findViewById(R.id.fab);
         komentar.setOnClickListener(new View.OnClickListener() {
 
@@ -73,6 +97,28 @@ public class DetailBeritaActivity extends AppCompatActivity {
                 DetailBeritaActivity.this.startActivity(intent);
             }
 
+        });
+
+        this.sukaBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                feedbackBeritaController.toggleFeedback(DetailBeritaActivity.this.berita, true, disukai, tidak_disukai);
+            }
+        });
+
+        this.tidakSukaBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                feedbackBeritaController.toggleFeedback(DetailBeritaActivity.this.berita, false, disukai, tidak_disukai);
+            }
+        });
+
+        this.simpan.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                DetailBeritaActivity.this.beritaOfflineController.simpanKeOffline(DetailBeritaActivity.this.berita);
+            }
         });
     }
 
@@ -138,6 +184,19 @@ public class DetailBeritaActivity extends AppCompatActivity {
                     DetailBeritaActivity.this.bookmarkB.setText("login untuk menambahkan ke bookmark");
                 }
 
+                if(jsonResponse.has("user_feedback")) {
+                    if(jsonResponse.getBoolean("user_like")) {
+                        DetailBeritaActivity.this.sukaBtn.setText("Batalkan suka");
+                    }
+                    else {
+                        DetailBeritaActivity.this.tidakSukaBtn.setText("Batalkan tidak suka");
+                    }
+                }
+                else {
+                    DetailBeritaActivity.this.sukaBtn.setEnabled(false);
+                    DetailBeritaActivity.this.tidakSukaBtn.setEnabled(false);
+                }
+
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -149,6 +208,24 @@ public class DetailBeritaActivity extends AppCompatActivity {
 
         }
 
+    }
+
+    public void setDisukai(boolean disukai) {
+        this.disukai = disukai;
+
+        if(disukai)
+            DetailBeritaActivity.this.sukaBtn.setText("Batalkan suka");
+        else
+            DetailBeritaActivity.this.sukaBtn.setText("suka");
+    }
+
+    public void setTidak_disukai(boolean tidak_disukai) {
+        this.tidak_disukai = tidak_disukai;
+
+        if(tidak_disukai)
+            DetailBeritaActivity.this.tidakSukaBtn.setText("Batalkan tidak suka");
+        else
+            DetailBeritaActivity.this.tidakSukaBtn.setText("tidak suka");
     }
 
 }

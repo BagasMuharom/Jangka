@@ -9,7 +9,18 @@ import android.os.Build;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
+import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
+import com.smadia.jangka.Models.Offline.UserOffline;
+import com.smadia.jangka.Request.Request;
+import com.smadia.jangka.Util.App;
+import com.smadia.jangka.Util.ImageGetter;
 import com.smadia.jangka.Views.UbahAvatar;
 
 import java.io.FileDescriptor;
@@ -19,6 +30,8 @@ import java.io.IOException;
 public class UnggahAvatarController {
 
     private UbahAvatar activity;
+
+    private Bitmap image;
 
     public UnggahAvatarController(AppCompatActivity activity) {
         this.activity = (UbahAvatar) activity;
@@ -39,6 +52,7 @@ public class UnggahAvatarController {
                     String selectedImagePath = getPath(selectedImage);
                     Bitmap image = BitmapFactory.decodeFile(selectedImagePath);
                     activity.imageView.setImageBitmap(image);
+                    this.image = image;
                 }
                 else {
                     ParcelFileDescriptor parcelFileDescriptor;
@@ -48,6 +62,7 @@ public class UnggahAvatarController {
                         Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
                         parcelFileDescriptor.close();
                         activity.imageView.setImageBitmap(image);
+                        this.image = image;
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -73,4 +88,30 @@ public class UnggahAvatarController {
 
         return uri.getPath();
     }
+
+    public void unggah() {
+        String url = App.generateUrl("user/unggah/avatar");
+        UnggahAvatarListener listener = new UnggahAvatarListener();
+        Request request = new Request(com.android.volley.Request.Method.POST, url, listener, listener);
+        request.addParams("avatar", Base64.encodeToString(ImageGetter.getImageByte(this.image), Base64.DEFAULT));
+        request.addParams("user", 1 + "");
+        request.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 5, 1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue queue = Volley.newRequestQueue(this.activity);
+        queue.add(request);
+    }
+
+    private class UnggahAvatarListener implements Response.Listener<String>, Response.ErrorListener {
+
+        @Override
+        public void onErrorResponse(VolleyError error) {
+            Toast.makeText(UnggahAvatarController.this.activity, "Gagal !", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onResponse(String response) {
+            Toast.makeText(UnggahAvatarController.this.activity, "Berhasil !", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
 }

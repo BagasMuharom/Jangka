@@ -29,6 +29,8 @@ public class UbahAvatar extends AppCompatActivity {
 
         imageView = (ImageView) findViewById(R.id.imageView);
 
+        unggahAvatar = (Button) findViewById(R.id.unggahGambar);
+
         pilihGambar = (Button) findViewById(R.id.pilihGambar);
 
         pilihGambar.setOnClickListener(new View.OnClickListener() {
@@ -38,6 +40,13 @@ public class UbahAvatar extends AppCompatActivity {
                 controller.chooseImage();
             }
 
+        });
+
+        unggahAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UbahAvatar.this.controller.unggah();
+            }
         });
     }
 

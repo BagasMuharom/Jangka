@@ -57,4 +57,7 @@ public class Daerah extends Models<Daerah> {
         return id;
     }
 
+    public String getNama() {
+        return nama;
+    }
 }
